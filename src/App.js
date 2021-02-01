@@ -1,5 +1,6 @@
 // import logo from "./logo.svg";
 // import { Button } from "shards-react";
+// import react from "react";
 import "./App.css";
 // import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -12,16 +13,39 @@ import {
     CardBody,
     CardFooter,
     Button,
+    Container,
+    Col,
+    Row,
 } from "shards-react";
 
 function App() {
-    return <BasicCardExample />;
+    const columnStyle = {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "5px",
+    };
+    return (
+        <Container>
+            <Row>
+                <Col style={columnStyle}>
+                    <BasicCardExample name="Air Fryer" />
+                </Col>
+                <Col style={columnStyle}>
+                    <BasicCardExample name="Bike" />
+                </Col>
+                <Col style={columnStyle}>
+                    <BasicCardExample name="Airpods" />
+                </Col>
+            </Row>
+        </Container>
+    );
 }
 
-function BasicCardExample() {
+function BasicCardExample({ name }) {
     return (
         <Card style={{ maxWidth: "300px" }}>
-            <CardHeader>Card header</CardHeader>
+            <CardHeader>{name}</CardHeader>
             <CardImg src="https://place-hold.it/300x200" />
             <CardBody>
                 <CardTitle>Lorem Ipsum</CardTitle>
