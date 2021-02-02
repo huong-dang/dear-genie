@@ -11,10 +11,8 @@ import { format } from "date-fns";
 import {
     Card,
     CardHeader,
-    CardTitle,
     CardImg,
     CardBody,
-    CardLink,
     CardFooter,
     Button,
     Container,
