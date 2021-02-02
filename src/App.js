@@ -5,56 +5,101 @@ import "./App.css";
 // import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "shards-ui/dist/css/shards.min.css";
+import { Component } from "react";
+import { format } from "date-fns";
+// import airpods from "./airpods.jpg";
 import {
     Card,
     CardHeader,
     CardTitle,
     CardImg,
     CardBody,
+    CardLink,
     CardFooter,
     Button,
     Container,
     Col,
     Row,
 } from "shards-react";
+const columnStyle = {
+    paddingBottom: "10px",
+};
 
-function App() {
-    const columnStyle = {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "5px",
-    };
-    return (
-        <Container>
-            <Row>
-                <Col style={columnStyle}>
-                    <BasicCardExample name="Air Fryer" />
-                </Col>
-                <Col style={columnStyle}>
-                    <BasicCardExample name="Bike" />
-                </Col>
-                <Col style={columnStyle}>
-                    <BasicCardExample name="Airpods" />
-                </Col>
-            </Row>
-        </Container>
-    );
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            numWishes: 11,
+            wishes: [],
+        };
+    }
+    componentDidMount() {
+        // const handler = (e) => this.setState({ matches: e.matches });
+        // window.matchMedia("(min-width: 768px)").addListener(handler);
+        let wishes = [];
+        for (let i = 0; i < this.state.numWishes; i++) {
+            wishes.push({ name: "Bike" + i });
+        }
+        this.setState({ wishes: wishes });
+    }
+    render() {
+        let newArray = [];
+        for (let i = 0; i < this.state.wishes.length; i++) {
+            let last = newArray[newArray.length - 1];
+            if (!last || last.length === 3) {
+                newArray.push([this.state.wishes[i]]);
+            } else {
+                last.push(this.state.wishes[i]);
+            }
+        }
+
+        console.log(newArray);
+
+        return (
+            <Container>
+                {newArray.map((wishRow, id) => (
+                    <WishRow wishes={wishRow} key={id} />
+                ))}
+            </Container>
+        );
+    }
 }
 
-function BasicCardExample({ name }) {
-    return (
-        <Card style={{ maxWidth: "300px" }}>
-            <CardHeader>{name}</CardHeader>
-            <CardImg src="https://place-hold.it/300x200" />
-            <CardBody>
-                <CardTitle>Lorem Ipsum</CardTitle>
-                <p>Lorem ipsum dolor sit amet.</p>
-                <Button>Read more &rarr;</Button>
-            </CardBody>
-            <CardFooter>Card footer</CardFooter>
-        </Card>
-    );
+function WishRow({ wishes }) {
+    const myRow = wishes.map((wish, idx) => {
+        return (
+            <Col style={columnStyle} key={idx}>
+                <BasicCardExample name={wish.name} />
+            </Col>
+        );
+    });
+
+    return <Row>{myRow}</Row>;
+}
+
+class BasicCardExample extends Component {
+    render() {
+        const today = format(new Date(), "dd/MM/yyyy hh:mm a");
+        // 14 wishes
+
+        return (
+            <Card style={{ maxWidth: "300px" }}>
+                <CardHeader>{this.props.name}</CardHeader>
+
+                <CardImg
+                    style={{ maxHeight: "200px" }}
+                    src="https://avatars.githubusercontent.com/u/21274031?s=400&v=4"
+                />
+                <CardBody>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                    <Button>Purchase</Button>
+                </CardBody>
+                <CardFooter>
+                    <p style={{ fontSize: "10px" }}>Updated: {today}</p>
+                </CardFooter>
+            </Card>
+        );
+    }
 }
 // function App() {
 //     return (
