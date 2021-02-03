@@ -26,11 +26,14 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            numWishes: 5,
+            // Remember to add a max num of wishes people can see at a time
+            numWishes: 12,
             wishes: [],
+            size: 3,
         };
     }
     componentDidMount() {
+        window.addEventListener("resize", this.updateDimensions);
         // const handler = (e) => this.setState({ matches: e.matches });
         // window.matchMedia("(min-width: 768px)").addListener(handler);
         let wishes = [];
@@ -39,18 +42,38 @@ class App extends Component {
         }
         this.setState({ wishes: wishes });
     }
-    render() {
+    updateDimensions = () => {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateDimensions);
+    }
+
+    computeRows() {
+        let size = this.state.numWishes;
+        // if (this.state.width <= 750) {
+        //     size = 1;
+        // } else if (this.state.width <= 650) {
+        //     size = 2;
+        // } else {
+        //     size = 5;
+        // }
         let newArray = [];
         for (let i = 0; i < this.state.wishes.length; i++) {
             let last = newArray[newArray.length - 1];
-            if (!last || last.length === 3) {
+            if (!last || last.length === size) {
                 newArray.push([this.state.wishes[i]]);
             } else {
                 last.push(this.state.wishes[i]);
             }
         }
-
         console.log(newArray);
+        return newArray;
+    }
+    render() {
+        const newArray = this.computeRows();
+        console.log(this.state.width);
 
         const headerStyle = {
             margin: 0,
@@ -66,13 +89,13 @@ class App extends Component {
             margin: 0,
             padding: 0,
             maxWidth: "100%",
+            backgroundColor: "#7C71AD",
         };
         const bodyStyle = {
             padding: "15px",
             display: "flex",
-            displayDirection: "row",
-            justifyContent: "center",
             backgroundColor: "#7C71AD",
+            margin: "5vh 5vh 0 5vh",
         };
 
         const avatarText = {
@@ -86,6 +109,24 @@ class App extends Component {
             textAlign: "center",
             textShadow: "2px 2px #000080",
         };
+        let myRow;
+        if (newArray.length > 0) {
+            myRow = newArray[0].map((wish, idx) => {
+                return (
+                    <Col style={columnStyle} key={idx}>
+                        <BasicCardExample name={wish.name} />
+                    </Col>
+                );
+            });
+        } else {
+            myRow = newArray.map((wish, idx) => {
+                return (
+                    <Col style={columnStyle} key={idx}>
+                        <BasicCardExample name={wish.name} />
+                    </Col>
+                );
+            });
+        }
 
         const link =
             "https://lh3.googleusercontent.com/0HBLF7SwC_b3YwLCOw_pHLROpOUSJd1ezPXxLRETgyYUMgWMojHtPRqkIhG__cGZWLlTxkM5W8vqyGAFkwMloi7A5w8S3U38f3Tog3o0N4xiU8vYC_v5IG1NH82bq89E5lZEV8mSsUvjeD7inoehaJK5GmBXOXu_rIbBCiLzyD0zYYqS8XA9VrreEU10_HmxNFQaLVcVhMREoQtKJTHDB4oLLpN5JDxixtJjWux9openfAdLabRHPRKQwEjyQOTMK8KLPiPE_f5sJvZ83UjO-k6yaEmpPAByhb34sqOQtWk7leJxWkoMmKPXqpGs70CxcCqWeAiBK964UtkLfPWpVIY4K4mqK6Z0rP2jRRX_q3tlpt8vGe-Xp8GIgg3vSbgnhaah-0z7y_RAP9aQsxVbF1wRn2iu58OAUu2DMPx3pqDZyg2bPaAETA6-AfbsbXNV7_umAuwlA52OOTlw2PYz_Rie2gowYTO5E5L9HcRtAzVpIFqsmMBKryDA6MQGX6mfKSCBlJFp-pPXSJdOI1cmXMfrHZwmy-1zZ5FTdMYtv_wD0QZq945iFVV6Onma1zdPKe39YgcsQWZdQQGbF6rhb2QjdjI-g6pjz3Vsm_ijskLTSuozrvjGqlzOqeE0bYPQOlcIKNC0fTM5tvM0irfT5N3F1hFIpQ5uJ0wcQ2fL53pbOR11-iVXvDuIh1UIew=w500-h504-no?authuser=0";
@@ -113,31 +154,10 @@ class App extends Component {
                         <p style={avatarText}>huong dang</p>
                     </div>
                 </Row>
-                <Row style={bodyStyle}>
-                    {newArray.map((wishRow, id) => (
-                        <WishRow
-                            wishes={wishRow}
-                            key={id}
-                            last={id === newArray.length - 1}
-                        />
-                    ))}
-                </Row>
+                <Row style={bodyStyle}>{myRow}</Row>
             </Container>
         );
     }
-}
-
-function WishRow({ wishes, last }) {
-    console.log(last);
-    const myRow = wishes.map((wish, idx) => {
-        return (
-            <Col style={columnStyle} key={idx}>
-                <BasicCardExample name={wish.name} last={last} />
-            </Col>
-        );
-    });
-
-    return <Row>{myRow}</Row>;
 }
 
 class BasicCardExample extends Component {
@@ -146,7 +166,7 @@ class BasicCardExample extends Component {
         // 14 wishes
 
         return (
-            <Card style={{ maxWidth: "300px" }}>
+            <Card style={{ minWidth: "350px", maxWidth: "350px" }}>
                 <CardHeader>{this.props.name}</CardHeader>
                 <CardImg
                     style={{ maxHeight: "200px" }}
