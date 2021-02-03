@@ -20,7 +20,7 @@ import {
     Row,
 } from "shards-react";
 const columnStyle = {
-    paddingBottom: "10px",
+    paddingBottom: "2vh",
 };
 class App extends Component {
     constructor(props) {
@@ -77,7 +77,7 @@ class App extends Component {
 
         const headerStyle = {
             margin: 0,
-            backgroundColor: "#CCCCFF",
+            backgroundColor: "#B97375",
             minHeight: "45vh",
             display: "flex",
             flexDirection: "column",
@@ -89,12 +89,12 @@ class App extends Component {
             margin: 0,
             padding: 0,
             maxWidth: "100%",
-            backgroundColor: "#7C71AD",
+            backgroundColor: "#CEB1BE",
         };
         const bodyStyle = {
             padding: "15px",
             display: "flex",
-            backgroundColor: "#7C71AD",
+            backgroundColor: "#CEB1BE",
             margin: "5vh 5vh 0 5vh",
         };
 
@@ -167,21 +167,42 @@ class BasicCardExample extends Component {
 
         return (
             <Card style={{ minWidth: "350px", maxWidth: "350px" }}>
-                <CardHeader>{this.props.name}</CardHeader>
+                <CardHeader
+                    style={{ backgroundColor: "#B97375", color: "#fff" }}
+                >
+                    {this.props.name}
+                </CardHeader>
                 <CardImg
                     style={{ maxHeight: "200px" }}
                     src="https://avatars.githubusercontent.com/u/21274031?s=400&v=4"
                 />
-                <CardBody>
+                <CardBody style={{ backgroundColor: "#E2DCDE" }}>
                     <p>
                         Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
                         Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
                     </p>
-                    <Button>Purchase</Button>
+                    <Button
+                        style={{
+                            backgroundColor: "#2D2D34",
+                            borderColor: "#2D2D34",
+                            fontWeight: "bold",
+                        }}
+                    >
+                        Purchase
+                    </Button>
                 </CardBody>
-                <CardFooter>
-                    <p style={{ fontSize: "10px" }}>Updated: {today}</p>
-                </CardFooter>
+                {/* <CardFooter
+                    style={{ backgroundColor: "#B97375", color: "#fff" }}
+                >
+                    <p
+                        style={{
+                            fontSize: "10px",
+                            color: "#000",
+                        }}
+                    >
+                        Updated: {today}
+                    </p>
+                </CardFooter> */}
             </Card>
         );
     }
