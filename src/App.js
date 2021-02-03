@@ -22,12 +22,11 @@ import {
 const columnStyle = {
     paddingBottom: "10px",
 };
-
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            numWishes: 11,
+            numWishes: 5,
             wishes: [],
         };
     }
@@ -53,21 +52,87 @@ class App extends Component {
 
         console.log(newArray);
 
+        const headerStyle = {
+            margin: 0,
+            backgroundColor: "#CCCCFF",
+            minHeight: "45vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+        };
+
+        const mainContainer = {
+            margin: 0,
+            padding: 0,
+            maxWidth: "100%",
+        };
+        const bodyStyle = {
+            padding: "15px",
+            display: "flex",
+            displayDirection: "row",
+            justifyContent: "center",
+            backgroundColor: "#7C71AD",
+        };
+
+        const avatarText = {
+            color: "#fff",
+            fontFamily: "Helvetica Neue",
+            sansSerif: 1,
+            fontSize: "5vh",
+            fontWeight: "bold",
+            letterSpacing: "-1px",
+            lineHeight: "1",
+            textAlign: "center",
+            textShadow: "2px 2px #000080",
+        };
+
+        const link =
+            "https://lh3.googleusercontent.com/0HBLF7SwC_b3YwLCOw_pHLROpOUSJd1ezPXxLRETgyYUMgWMojHtPRqkIhG__cGZWLlTxkM5W8vqyGAFkwMloi7A5w8S3U38f3Tog3o0N4xiU8vYC_v5IG1NH82bq89E5lZEV8mSsUvjeD7inoehaJK5GmBXOXu_rIbBCiLzyD0zYYqS8XA9VrreEU10_HmxNFQaLVcVhMREoQtKJTHDB4oLLpN5JDxixtJjWux9openfAdLabRHPRKQwEjyQOTMK8KLPiPE_f5sJvZ83UjO-k6yaEmpPAByhb34sqOQtWk7leJxWkoMmKPXqpGs70CxcCqWeAiBK964UtkLfPWpVIY4K4mqK6Z0rP2jRRX_q3tlpt8vGe-Xp8GIgg3vSbgnhaah-0z7y_RAP9aQsxVbF1wRn2iu58OAUu2DMPx3pqDZyg2bPaAETA6-AfbsbXNV7_umAuwlA52OOTlw2PYz_Rie2gowYTO5E5L9HcRtAzVpIFqsmMBKryDA6MQGX6mfKSCBlJFp-pPXSJdOI1cmXMfrHZwmy-1zZ5FTdMYtv_wD0QZq945iFVV6Onma1zdPKe39YgcsQWZdQQGbF6rhb2QjdjI-g6pjz3Vsm_ijskLTSuozrvjGqlzOqeE0bYPQOlcIKNC0fTM5tvM0irfT5N3F1hFIpQ5uJ0wcQ2fL53pbOR11-iVXvDuIh1UIew=w500-h504-no?authuser=0";
         return (
-            <Container>
-                {newArray.map((wishRow, id) => (
-                    <WishRow wishes={wishRow} key={id} />
-                ))}
+            <Container className="main" style={mainContainer}>
+                <Row style={headerStyle}>
+                    <div className="avatarContainer">
+                        <a href="/" className="avatarLink">
+                            <div
+                                className="avatarIcon"
+                                style={{
+                                    backgroundImage: `url(${link})`,
+                                    width: "15vh",
+                                    height: "15vh",
+                                    backgroundSize: "cover",
+                                    backgroundPosition: "top center",
+                                    borderRadius: "50%",
+                                    boxShadow:
+                                        "0 0 0 0.125rem #fff, 0 0.1875rem 0.4375rem rgba(90, 97, 105, 0.5)",
+                                }}
+                            />
+                        </a>
+                    </div>
+                    <div>
+                        <p style={avatarText}>huong dang</p>
+                    </div>
+                </Row>
+                <Row style={bodyStyle}>
+                    {newArray.map((wishRow, id) => (
+                        <WishRow
+                            wishes={wishRow}
+                            key={id}
+                            last={id === newArray.length - 1}
+                        />
+                    ))}
+                </Row>
             </Container>
         );
     }
 }
 
-function WishRow({ wishes }) {
+function WishRow({ wishes, last }) {
+    console.log(last);
     const myRow = wishes.map((wish, idx) => {
         return (
             <Col style={columnStyle} key={idx}>
-                <BasicCardExample name={wish.name} />
+                <BasicCardExample name={wish.name} last={last} />
             </Col>
         );
     });
@@ -83,13 +148,15 @@ class BasicCardExample extends Component {
         return (
             <Card style={{ maxWidth: "300px" }}>
                 <CardHeader>{this.props.name}</CardHeader>
-
                 <CardImg
                     style={{ maxHeight: "200px" }}
                     src="https://avatars.githubusercontent.com/u/21274031?s=400&v=4"
                 />
                 <CardBody>
-                    <p>Lorem ipsum dolor sit amet.</p>
+                    <p>
+                        Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                        Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    </p>
                     <Button>Purchase</Button>
                 </CardBody>
                 <CardFooter>
