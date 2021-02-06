@@ -13,7 +13,6 @@ import {
     CardHeader,
     CardImg,
     CardBody,
-    CardFooter,
     Button,
     Container,
     Col,
@@ -138,7 +137,6 @@ class App extends Component {
                             <div
                                 className="avatarIcon"
                                 style={{
-                                    backgroundImage: `url(${link})`,
                                     width: "15vh",
                                     height: "15vh",
                                     backgroundSize: "cover",
@@ -146,6 +144,7 @@ class App extends Component {
                                     borderRadius: "50%",
                                     boxShadow:
                                         "0 0 0 0.125rem #fff, 0 0.1875rem 0.4375rem rgba(90, 97, 105, 0.5)",
+                                    backgroundColor: "#f1e4e8",
                                 }}
                             />
                         </a>
