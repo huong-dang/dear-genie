@@ -6,7 +6,7 @@ import axios from "axios";
 
 class Header extends Component {
     async componentDidMount() {
-        const result = await axios.get("https://dear-genie-api.vercel.app/");
+        const result = await axios.get("/api/hello");
         console.log(result);
     }
 
