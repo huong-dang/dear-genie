@@ -1,15 +1,8 @@
 // import Head from "next/head";
 // import styles from "../styles/Home.module.css";
-import Header from "../components/header";
-import Profile from "../components/profile";
 
 export default function Home() {
-    return (
-        <div>
-            <Header />
-            <Profile />
-        </div>
-    );
+    return <div>Hello! Coming soon :)</div>;
 }
 
 // export default function Home() {
